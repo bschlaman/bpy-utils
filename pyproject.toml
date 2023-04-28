@@ -1,0 +1,25 @@
+[project]
+name = "bpy-utils"
+authors = [{name = "Brendan Schlaman", email = "brendan.schlaman@gmail.com"}]
+requires-python = ">=3.9"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+    "jsonschema",
+    "colorama",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "isort", "flake8", "ipython"]
+
+[tool.pyright]
+include = ["src"]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+]
+pythonPlatform = "Linux"
