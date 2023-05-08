@@ -1,5 +1,6 @@
 import datetime
 from typing import Any, Iterable
+from itertools import islice
 
 from .colors import yel
 
@@ -12,15 +13,23 @@ def fmt(obj: datetime.datetime | float) -> str:
     raise TypeError(f"unsupported type: {type(obj)}")
 
 
-def compact_repr(target: list, length: int = 5) -> str:
-    if not target or length < 1:
-        raise Exception("bad inputs")
-    left_bracket = str(target)[0]
-    if len(target) <= length or length <= 0:
-        return str(target)
-    return f"{left_bracket}{target[0]}, ... " + repr(target[-length:]).lstrip(
-        left_bracket
-    )
+def compact_repr(target: list | set) -> str:
+    """Efficiently generate a compact representation of `target`.
+    This function shows up to 4 elements, so anything smaller
+    will simply be returned as its default string representation.
+    Two elements are printed at the front, and two at the back.
+
+    :param target: the list or set to be compactified
+    :returns str representation of the compactified target
+    """
+    if not isinstance(target, (list, set)):
+        raise TypeError("invalid target type: " + type(target))
+    if len(target) <= 4:
+        return repr(target)
+    left = map(str, islice(iter(target), 2))
+    right = map(str, islice(iter(target), len(target) -2, None))
+    lb, rb = tuple("{}") if isinstance(target, set) else tuple("[]")
+    return f"{lb}{str(', '.join(left))}, ... {str(', '.join(right))}{rb}"
 
 
 def data_print(labeled_data: dict[str, Any]) -> Iterable[str]:
