@@ -9,7 +9,7 @@ _PYTHON_TEMPLATE = {"format": "uri-template"}
 
 _URL_TEMPLATE = {"pattern": r"^https?://[^\s]*$", "format": "uri-template"}
 
-_S3_URI = {"pattern": r"^s3:\/\/([\w\.-]+\/)*[\w\.-]+\.yml$"}
+_S3_URI = {"pattern": r"^s3:\/\/([\w\.-]+\/)*[\w\.-]+$"}
 
 _RECIPE_KEYVALUES = {
     "description": (
