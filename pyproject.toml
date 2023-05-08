@@ -1,5 +1,5 @@
 [project]
-name = "bpy-utils"
+name = "bpyutils"
 authors = [{name = "Brendan Schlaman", email = "brendan.schlaman@gmail.com"}]
 requires-python = ">=3.9"
 readme = "README.md"
