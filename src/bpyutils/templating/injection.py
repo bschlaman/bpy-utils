@@ -6,22 +6,25 @@ import string
 
 
 class RecipeInjector:
+    """Utility for injecting keys and values into a template.
+    Together, the template and keyvalues are a 'Recipe'.
+    """
     def __init__(self, template: str):
         self.template = template
 
-    def _validate_template_formatable(self, schema: list[dict[str, str]]):
+    def _validate_template_formatable(self, keyvalues: list[dict[str, str]]):
         """Validates if `template` placeholders are all present
-        in `schema`
+        in `keyvalues`
         """
         try:
             # 1) test for excess fields
             # coerce key to string to supress type warning
-            dummy_parameters = {str(_["key"]): "" for _ in schema}
-            self.template.format(**dummy_parameters)
+            dummy_keyvalues = {str(_["key"]): "" for _ in keyvalues}
+            self.template.format(**dummy_keyvalues)
             # 2) test for excess keys
             assert set(
                 key for _, key, _, _ in string.Formatter().parse(self.template) if key
-            ) == set(_["key"] for _ in schema)
+            ) == set(_["key"] for _ in keyvalues)
         except (AssertionError, KeyError) as e:
             raise Exception(f"parameter mismatch: {e!r}") from e
 
@@ -29,7 +32,7 @@ class RecipeInjector:
         return {kv["key"]: kv["value"] for kv in keyvalues}
 
     def construct_string(self, keyvalues: list[dict[str, str]]):
-        # surface any obvious problems with the path schema
+        # surface any obvious problems with the template and keyvalues
         self._validate_template_formatable(keyvalues)
         return self.template.format(**self._construct_kv_dict(keyvalues))
 
