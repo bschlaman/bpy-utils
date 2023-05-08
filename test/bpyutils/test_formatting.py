@@ -2,6 +2,7 @@ import unittest
 
 from bpyutils.formatting.std import compact_repr
 
+
 class TestCompactRepr(unittest.TestCase):
     def test_compact_repr_set_empty(self):
         target = set()

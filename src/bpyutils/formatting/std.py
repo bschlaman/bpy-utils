@@ -1,6 +1,6 @@
 import datetime
-from typing import Any, Iterable
 from itertools import islice
+from typing import Any, Iterable
 
 from .colors import yel
 
@@ -27,7 +27,7 @@ def compact_repr(target: list | set) -> str:
     if len(target) <= 4:
         return repr(target)
     left = map(str, islice(iter(target), 2))
-    right = map(str, islice(iter(target), len(target) -2, None))
+    right = map(str, islice(iter(target), len(target) - 2, None))
     lb, rb = tuple("{}") if isinstance(target, set) else tuple("[]")
     return f"{lb}{str(', '.join(left))}, ... {str(', '.join(right))}{rb}"
 

@@ -10,4 +10,5 @@ This repository contains various python utilities used across my projects.
 ### Library 2: formatting
 ### Library 3: io
 ### Library 4: networking
+### Library 5: templating
 

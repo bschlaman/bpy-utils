@@ -9,6 +9,7 @@ class RecipeInjector:
     """Utility for injecting keys and values into a template.
     Together, the template and keyvalues are a 'Recipe'.
     """
+
     def __init__(self, template: str):
         self.template = template
 
