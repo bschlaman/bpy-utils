@@ -36,7 +36,7 @@ class TestSchemasRefs(unittest.TestCase):
         self.validator.validate(d)
 
     def test_invalid_ref_path(self):
-        self.root_schema["properties"]["prop0"] = { "$ref": "/schemas/common/xyz" }
+        self.root_schema["properties"]["prop0"] = {"$ref": "/schemas/common/xyz"}
         print(self.root_schema)
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "test0", "prop1": "test1"}
@@ -44,7 +44,7 @@ class TestSchemasRefs(unittest.TestCase):
             self.validator.validate(d)
 
     def test_invalid_base_ref_path(self):
-        self.root_schema["properties"]["prop0"] = { "$ref": "/schemas/common/base/xyz" }
+        self.root_schema["properties"]["prop0"] = {"$ref": "/schemas/common/base#/xyz"}
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "test0", "prop1": "test1"}
         with self.assertRaises(jsonschema.exceptions.RefResolutionError):
@@ -52,7 +52,7 @@ class TestSchemasRefs(unittest.TestCase):
 
     def test_can_reference_common_schemas(self):
         self.root_schema["properties"]["prop0"] = {
-            "prop0": {"$ref": "/schemas/common/base/template_recipe"},
+            "$ref": "/schemas/common/template_recipe"
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": self.sample_template_recipe, "prop1": "test1"}
@@ -60,8 +60,8 @@ class TestSchemasRefs(unittest.TestCase):
 
     def test_can_reference_common_base_schemas(self):
         self.root_schema["properties"] = {
-            "prop0": {"$ref": "/schemas/common/base/text"},
-            "prop1": {"$ref": "/schemas/common/base/python_template"},
+            "prop0": {"$ref": "/schemas/common/base#/$defs/text"},
+            "prop1": {"$ref": "/schemas/common/base#/$defs/python_template"},
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "test0", "prop1": "var = {var}"}
@@ -98,7 +98,7 @@ class TestSchemas(unittest.TestCase):
 
     def test_base_python_template_success_no_template(self):
         self.root_schema["properties"]["prop0"] = {
-            "$ref": "/schemas/common/base/python_template",
+            "$ref": "/schemas/common/base#/$defs/python_template",
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "just normal text", "prop1": "test1"}
@@ -106,7 +106,7 @@ class TestSchemas(unittest.TestCase):
 
     def test_base_python_template_success_with_template(self):
         self.root_schema["properties"]["prop0"] = {
-            "$ref": "/schemas/common/base/python_template",
+            "$ref": "/schemas/common/base#/$defs/python_template",
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "just {param} text", "prop1": "test1"}
@@ -114,7 +114,7 @@ class TestSchemas(unittest.TestCase):
 
     def test_base_url_template_fail(self):
         self.root_schema["properties"]["prop0"] = {
-            "$ref": "/schemas/common/base/url_template",
+            "$ref": "/schemas/common/base#/$defs/url_template",
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "just normal text", "prop1": "test1"}
@@ -123,7 +123,7 @@ class TestSchemas(unittest.TestCase):
 
     def test_base_url_template_success(self):
         self.root_schema["properties"]["prop0"] = {
-            "$ref": "/schemas/common/base/url_template",
+            "$ref": "/schemas/common/base#/$defs/url_template",
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "https://localhost:80/{api}", "prop1": "test1"}
@@ -131,7 +131,7 @@ class TestSchemas(unittest.TestCase):
 
     def test_base_s3_uri_fail(self):
         self.root_schema["properties"]["prop0"] = {
-            "$ref": "/schemas/common/base/s3_uri",
+            "$ref": "/schemas/common/base#/$defs/s3_uri",
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "https://localhost:80/", "prop1": "test1"}
@@ -140,7 +140,7 @@ class TestSchemas(unittest.TestCase):
 
     def test_base_s3_uri_success(self):
         self.root_schema["properties"]["prop0"] = {
-            "$ref": "/schemas/common/base/s3_uri",
+            "$ref": "/schemas/common/base#/$defs/s3_uri",
         }
         self.validator = build_validator(self.root_schema)
         d = {"prop0": "s3://bucket-1/path/path2/file.wav", "prop1": "test1"}

@@ -42,8 +42,8 @@ TEMPLATE_RECIPE = {
     "required": ["template", "keyvalues"],
     "properties": {
         # TODO: should change this to /template
-        "template": {"$ref": "/schemas/common/base/url_template"},
-        "keyvalues": {"$ref": "/schemas/common/base/keyvalues"},
+        "template": {"$ref": "/schemas/common/base#/$defs/url_template"},
+        "keyvalues": {"$ref": "/schemas/common/base#/$defs/keyvalues"},
     },
 }
 
