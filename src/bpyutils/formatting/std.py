@@ -1,11 +1,11 @@
 import datetime
 from itertools import islice
-from typing import Any, Iterable
+from typing import Any, Iterable, Union
 
 from .colors import yel
 
 
-def fmt(obj: datetime.datetime | float) -> str:
+def fmt(obj: Union[datetime.datetime, float]) -> str:
     if isinstance(obj, float):
         return format(obj, ".4f")
     if isinstance(obj, datetime.datetime):
@@ -13,7 +13,7 @@ def fmt(obj: datetime.datetime | float) -> str:
     raise TypeError(f"unsupported type: {type(obj)}")
 
 
-def compact_repr(target: list | set) -> str:
+def compact_repr(target: Union[list, set]) -> str:
     """Efficiently generate a compact representation of `target`.
     This function shows up to 4 elements, so anything smaller
     will simply be returned as its default string representation.

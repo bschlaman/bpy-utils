@@ -3,6 +3,7 @@ with keyvalues"""
 
 
 import string
+from typing import Union
 
 
 class RecipeInjector:
@@ -50,7 +51,9 @@ class SchemaInjectorCartesian:
     def __init__(self, template: str):
         self.template = template
 
-    def _validate_template_formatable(self, schema: list[dict[str, str | list[str]]]):
+    def _validate_template_formatable(
+        self, schema: list[dict[str, Union[str, list[str]]]]
+    ):
         """Validates if `template` placeholders are all present
         in `schema`
         """
@@ -66,7 +69,7 @@ class SchemaInjectorCartesian:
         except (AssertionError, KeyError) as e:
             raise Exception(f"parameter mismatch: {e!r}") from e
 
-    def _inject_schema_parameters(self, schema: list[dict[str, str | list[str]]]):
+    def _inject_schema_parameters(self, schema: list[dict[str, Union[str, list[str]]]]):
         def _format_rec(root, i=0):
             if i == len(schema):
                 return [root]
@@ -79,7 +82,7 @@ class SchemaInjectorCartesian:
 
         return _format_rec(self.template)
 
-    def construct_string(self, schema: list[dict[str, str | list[str]]]):
+    def construct_string(self, schema: list[dict[str, Union[str, list[str]]]]):
         # surface any obvious problems with the path schema
         self._validate_template_formatable(schema)
         # this util can generate a cartesian product, but for now,
